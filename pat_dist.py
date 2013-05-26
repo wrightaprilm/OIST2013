@@ -31,12 +31,16 @@ def query_date_life():
 	for item in split_cord:
 		if re.search('combinedName>', item):
 			genus = re.findall('\w+ ', item)
-			for item in genus:
-				genus = str(genus)
 			species = re.findall(' \w+' , item)
-			for item in species:
-				species = str(species)
-				formatted_name = genus + species		
-				print formatted_name
-	print genus
+			if len(genus) == 1:
+				final_name = genus[0] + '_' + species[0]
+				final_name = final_name.replace(' ', '')
+	dl_string = "http://datelife.org/cgi-bin/R/result?input="
+	seps = "%2C"
+	capper = "&format=newickmed&partial=liberal&useembargoed=yes&uncertainty=100"
+	dl_query = dl_string + species1 + seps + final_name + capper
+	dl_response = urllib2.urlopen(dl_query)	
+	dl_read = response.read()
+
+		
 query_date_life()	
